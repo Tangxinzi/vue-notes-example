@@ -57,6 +57,9 @@ const Note = {
           collection.update(this.entity)
           db.saveDatabase()
         })
+    },
+    destroy() {
+      this.$emit('destroy', this.entity.$loki)
     }
   },
   template:  `
@@ -71,6 +74,7 @@ const Note = {
         <div class="extra">
           <editor v-bind:entity-object="entity" v-if="open" v-on:update="save"></editor>
           {{ words }} 字
+          <i class="right floated trash outline icon" v-if="open" v-on:click="destroy"></i>
         </div>
       </div>
     </div>
@@ -107,6 +111,19 @@ const Notes = {
           db.saveDatabase()
           this.entities.unshift(entity)
         })
+    },
+    destroy(id) {
+      const _entities = this.entities.filter((entity) => {
+        return entity.$loki !== id
+      })
+
+      this.entities = _entities
+
+      loadCollection('notes')
+        .then((collection) => {
+          collection.remove({ '$loki': id })
+          db.saveDatabase()
+        })
     }
   },
   components: {
@@ -120,7 +137,7 @@ const Notes = {
       </h4>
       <a class="ui right floated basic violet button" v-on:click="create">添加笔记</a>
       <div class="ui divided items">
-        <note v-for="entity in entities" v-bind:entityObject="entity" v-bind:key="entity.$loki"></note>
+        <note v-for="entity in entities" v-bind:entityObject="entity" v-bind:key="entity.$loki" v-on:destroy="destroy"></note>
       </div>
     </div>
   `
