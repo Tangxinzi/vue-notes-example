@@ -138,6 +138,9 @@ const Notes = {
       <a class="ui right floated basic violet button" v-on:click="create">添加笔记</a>
       <div class="ui divided items">
         <note v-for="entity in entities" v-bind:entityObject="entity" v-bind:key="entity.$loki" v-on:destroy="destroy"></note>
+        <span class="ui small disabled header" v-if="!this.entities.length">
+          还没有笔记，请按下“添加笔记”按钮。
+        </span>
       </div>
     </div>
   `
