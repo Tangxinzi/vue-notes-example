@@ -1,0 +1,13 @@
+{
+  "name": "vue-notes-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "KMT 184.05 <oncwnuDpNzQMO7Ay9Yg5TJoyK7Uk@git.weixin.qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "./node_modules/.bin/browser-sync start --server --no-notify --files='index.html, *.css, *.js'"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.7"
+  }
+}
