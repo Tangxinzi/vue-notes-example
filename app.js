@@ -7,13 +7,19 @@ const Editor = {
       entity: this.entityObject
     }
   },
+  methods: {
+    update() {
+      this.$emit('update')
+    }
+  },
   template: `
     <div class="ui form">
       <div class="field">
         <textarea
         rows="5"
         placeholder="写点东西..."
-        v-model="entity.body">
+        v-model="entity.body"
+        v-on:input="update">
         </textarea>
       </div>
     </div>
@@ -38,6 +44,15 @@ const Note = {
   components: {
     'editor': Editor
   },
+  methods: {
+    save() {
+      loadCollection('notes')
+        .then((collection) => {
+          collection.update(this.entity)
+          db.saveDatabase()
+        })
+    }
+  },
   template:  `
     <div class="item">
       <div class="content">
@@ -45,7 +60,7 @@ const Note = {
           {{ header || '新建笔记' }}
         </div>
         <div class="extra">
-          <editor v-bind:entity-object="entity" v-if="open"></editor>
+          <editor v-bind:entity-object="entity" v-if="open" v-on:update="save"></editor>
         </div>
       </div>
     </div>
