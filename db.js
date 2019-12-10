@@ -12,12 +12,11 @@ function databaseInitialize() {
   }
 }
 
-// Console
-// const notesCollection = db.getCollection('notes')
-// notesCollection.find() 查找所有
-// notesCollection.findOne() 查找一条记录
-// notesCollection.insert({body: 'hello ~'}) 插入一条记录
-// const note = notesCollection.find({'$loki': 1}) 查找 ID = 1
-// note.body = 'hola ~'
-// notesCollection.update(note) 更新
-// notesCollection.remove(note) 删除
+function loadCollection(collection) {
+  return new Promise(resolve => {
+    db.loadDatabase({}, () => {
+      const _collection = db.getCollection(collection) || db.addCollection(collection)
+      resolve(_collection)
+    })
+  })
+}
