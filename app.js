@@ -42,7 +42,10 @@ const Note = {
     },
     updated() {
       return moment(this.entity.meta.updated).fromNow()
-    }
+    },
+    words() {
+      return this.entity.body.trim().length
+    },
   },
   components: {
     'editor': Editor
@@ -58,15 +61,16 @@ const Note = {
   },
   template:  `
     <div class="item">
+      <div class="meta">
+        {{ updated }}
+      </div>
       <div class="content">
-        <div class="meta">
-          {{ updated }}
-        </div>
         <div class="header" v-on:click="open = !open">
           {{ header || '新建笔记' }}
         </div>
         <div class="extra">
           <editor v-bind:entity-object="entity" v-if="open" v-on:update="save"></editor>
+          {{ words }} 字
         </div>
       </div>
     </div>
